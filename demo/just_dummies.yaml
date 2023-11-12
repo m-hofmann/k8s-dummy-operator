@@ -1,0 +1,15 @@
+apiVersion: interview.com/v1alpha1
+kind: Dummy
+metadata:
+  name: just-a-dummy
+  namespace: default
+spec:
+  message: "I'm just a dummy doing dummy things"
+---
+apiVersion: interview.com/v1alpha1
+kind: Dummy
+metadata:
+  name: another-dummy
+  namespace: default
+spec:
+  message: "I'm another of those dummies"
