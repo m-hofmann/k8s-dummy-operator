@@ -46,10 +46,6 @@ type DummyReconciler struct {
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
-// TODO(user): Modify the Reconcile function to compare the state specified by
-// the Dummy object against the actual cluster state, and then
-// perform operations to make the cluster state reflect the state specified by
-// the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
@@ -70,25 +66,25 @@ func (r *DummyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 
 	logger.Info("Processing Dummy object", "name", req.Name, "namespace", req.Namespace, "message", dummy.Spec.Message)
 
-	isToBeDeleted := dummy.GetDeletionTimestamp() != nil
-	if isToBeDeleted {
-		logger.Info("Dummy object is to be deleted", dummy)
-	}
-
 	result, err := r.reconcilePod(dummy, logger)
 	if err != nil {
+		logger.Error(err, "Failed to reconcile Dummy status")
 		return result, err
 	}
 
-	// FIXME move to reconcileStatus
-	dummy.Status.SpecEcho = dummy.Spec.Message
-	dummy, err = r.updateDummyStatus(dummy, logger)
+	result, err = r.updateStatusMessage(dummy, err, logger)
 	if err != nil {
 		logger.Error(err, "Failed to update Dummy status")
-		return ctrl.Result{}, err
+		return result, err
 	}
 
 	return ctrl.Result{}, nil
+}
+
+func (r *DummyReconciler) updateStatusMessage(dummy *interviewcomv1alpha1.Dummy, err error, logger logr.Logger) (ctrl.Result, error) {
+	dummy.Status.SpecEcho = dummy.Spec.Message
+	dummy, err = r.updateDummyStatus(dummy, logger)
+	return ctrl.Result{}, err
 }
 
 func (r *DummyReconciler) updateDummyStatus(cr *interviewcomv1alpha1.Dummy, log logr.Logger) (*interviewcomv1alpha1.Dummy, error) {
