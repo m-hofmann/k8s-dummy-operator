@@ -36,12 +36,12 @@ make docker-build docker-push IMG="ghcr.io/<YOUR-GITHUB-ACCOUNT-NAME>/k8s-dummy-
 
 ## TODO
 
-Some ideas for improving this operator
+Some ideas for improving this operator:
 
-1. Make created objects more resilient
+1. Make created dependent objects more resilient
    1. Add Liveness/Readiness probe to created Pods
    2. Use Deployments instead of Pods to make `Dummy` scale out
-2. Extend `Dummy` to reflect detailed status messages (e.g. `ImagePullBackoff`)
+2. Extend `Dummy` to reflect detailed status messages from Pod (e.g. `ImagePullBackoff`)
 3. Make Controller heal Pod specs if they are changed
 4. Implement some tests (and a lot of mocks)
 
