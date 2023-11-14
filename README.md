@@ -7,7 +7,7 @@ owning `Dummy`. Based on [Operator SDK](https://sdk.operatorframework.io/).
 
 1. `git clone` this repository
 2. Connect to a Kubernetes cluster (for example [minikube](https://minikube.sigs.k8s.io))
-3. Install the operator to your cluster: `make deploy IMG="ghcr.io/m-hofmann/k8s-dummy-operator:v0.0.1"`
+3. Install the operator to your cluster: `make deploy IMG="ghcr.io/m-hofmann/k8s-dummy-operator:v0.0.2"`
 4. Create two new sample `Dummy` objects in the `default` namespace by using `kubectl apply -f demo/just_dummies.yaml`
 5. Watch the status of 
    - your newly created `Dummy` objects: `kubectl describe Dummy`
